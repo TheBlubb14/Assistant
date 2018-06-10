@@ -9,17 +9,89 @@
         xmlns:Custom="http://www.galasoft.ch/mvvmlight"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:Assistant"
+        xmlns:extension="clr-namespace:Assistant.Extension"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="Transparent"
         FontFamily="{DynamicResource MaterialDesignFont}"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Name="Main" Height="120" Width="250" WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown" Topmost="True" IsTabStop="False" AllowsTransparency="True" SizeToContent="Height">
+    <Border Background="#FF303030" CornerRadius="10">
+        <StackPanel>
+            <Grid x:Name="ContentGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=Main, Path=ActualWidth}"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="TextView"
+                            Margin="4"
+                            Grid.Column="0"                    
+                            Grid.Row="0">
+                    <Viewbox StretchDirection="DownOnly">
+                        <TextBlock MaxWidth="{Binding ElementName=TextView, Path=ActualWidth}"
+                                   MaxHeight="{Binding ElementName=TextView, Path=ActualHeight}"
+                                   Text="whats up?"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                    </Viewbox>
+                </StackPanel>
+                <Button
+                    Margin="5 0 5 0"
+                    HorizontalAlignment="Right"
+                    Grid.Column="0"
+                    Padding="0"
+                    Grid.Row="1"
+                    Width="25"
+                    Height="25"
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <materialDesign:PackIcon Kind="Settings" Opacity="0.3"/>
+                </Button>
+                <Button
+                    Margin="5 0 5 0"
+                    HorizontalAlignment="Left"
+                    Grid.Column="0"
+                    Padding="0"
+                    Grid.Row="1"
+                    Width="25"
+                    Height="25"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding TriggerTextInputCommand}">
+                    <materialDesign:PackIcon Kind="MessageTextOutline" Opacity="{Binding TextInputOpacity}"/>
+                </Button>
+                <Button
+                    Margin="5 0 5 0"
+                    HorizontalAlignment="Center"
+                    Grid.Column="0"
+                    Padding="0"
+                    Grid.Row="1"
+                    Width="25"
+                    Height="25"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding TriggerMicrophoneCommand}">
+                    <materialDesign:PackIcon Kind="Microphone" Opacity="{Binding MicrophoneOpacity}"/>
+                </Button>
+            </Grid>
+            <TextBox 
+                Margin="5,0,5,5"
+                Text="{Binding TextInputText}"
+                extension:FocusExtension.IsFocused="{Binding TextInput}"
+                Visibility="{Binding TextInput, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="KeyDown">
+                        <Custom:EventToCommand Command="{Binding TextInputKeyPressCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+        </StackPanel>
+    </Border>
 </Window>
