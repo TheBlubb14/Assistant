@@ -10,6 +10,13 @@ namespace Assistant.Model
     {
         public event EventHandler<GoogleAssistantStatusEventArgs> StatusChanged;
 
+        private AudioManager audioManager;
+
+        public GoogleAssistant()
+        {
+            audioManager = new AudioManager();
+        }
+
         public void Write(string message)
         {
 
@@ -17,12 +24,13 @@ namespace Assistant.Model
 
         public void StartListen()
         {
-
+            audioManager.StartRecording();
         }
 
         public void StopListen()
         {
-
+            audioManager.StopRecording();
+            audioManager.PlayInternal();
         }
     }
 }

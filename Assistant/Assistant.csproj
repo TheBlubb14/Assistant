@@ -151,6 +151,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extension\FocusExtension.cs" />
+    <Compile Include="Model\AudioManager.cs" />
     <Compile Include="Model\Generated\Annotations.cs" />
     <Compile Include="Model\Generated\EmbeddedAssistant.cs" />
     <Compile Include="Model\Generated\EmbeddedAssistantGrpc.cs" />
