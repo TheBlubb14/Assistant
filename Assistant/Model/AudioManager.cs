@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Assistant.Model
@@ -15,6 +17,8 @@ namespace Assistant.Model
         private WaveIn recorder;
         private Queue<byte[]> queue;
         private bool IsRecording;
+        private WaveOut waveOut;
+        private RawSourceWaveStream stream;
 
         public AudioManager()
         {
@@ -64,34 +68,36 @@ namespace Assistant.Model
             return queue.Dequeue();
         }
 
-
-        WaveOut waveOut;
-        RawSourceWaveStream stream;
-
         public void Play(byte[] data)
         {
             waveOut = new WaveOut();
             stream = new RawSourceWaveStream(data, 0, data.Length, recorder.WaveFormat);
-            waveOut.PlaybackStopped += this.WaveOut_PlaybackStopped;      
+            waveOut.PlaybackStopped += this.WaveOut_PlaybackStopped;
             waveOut.Init(stream);
             waveOut.Volume = 1;
             waveOut.Play();
         }
 
+
+        private Thread playThread;
         public void PlayInternal()
         {
-            var buffer = new List<byte>();
+            playThread = new Thread(async () =>
+            {
+                var buffer = await GetBufferAsync();
 
-            while (queue.Count != 0)
-                buffer.AddRange(queue.Dequeue());
+                while (buffer != null)
+                {
+                    Play(buffer);
+                    buffer = await GetBufferAsync();
+                }
+            });
+            playThread.Start();
+        }
 
-            waveOut = new WaveOut();
-            stream = new RawSourceWaveStream(buffer.ToArray(), 0, buffer.Count, recorder.WaveFormat);
-            waveOut.PlaybackStopped += this.WaveOut_PlaybackStopped;
-            waveOut.Init(stream);
-            waveOut.Volume = 1;
-            waveOut.Play();
-
+        public void StopInternal()
+        {
+            playThread.Abort();
         }
 
         private void WaveOut_PlaybackStopped(object sender, StoppedEventArgs e)
@@ -102,6 +108,9 @@ namespace Assistant.Model
 
         public void Dispose()
         {
+            if (playThread?.IsAlive == true)
+                playThread.Abort();
+
             IsRecording = false;
             queue.Clear();
             queue = null;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Assistant.Model
@@ -25,12 +26,14 @@ namespace Assistant.Model
         public void StartListen()
         {
             audioManager.StartRecording();
+            audioManager.PlayInternal();
+
         }
 
         public void StopListen()
         {
             audioManager.StopRecording();
-            audioManager.PlayInternal();
+            audioManager.StopInternal();
         }
     }
 }
