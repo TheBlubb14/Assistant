@@ -17,6 +17,8 @@ namespace Assistant.ViewModel
 
         public string TextInputText { get; set; }
 
+        public string Text { get; set; }
+
         public ICommand TriggerMicrophoneCommand { get; set; }
 
         public ICommand TriggerTextInputCommand { get; set; }
@@ -37,6 +39,7 @@ namespace Assistant.ViewModel
                 googleAssistant = new GoogleAssistant();
             }
 
+            Text = "whats up?";
             MicrophoneOpacity = 0.3;
             TextInputOpacity = 0.3;
             TextInput = false;
@@ -82,6 +85,7 @@ namespace Assistant.ViewModel
 
         private void StopTextInput()
         {
+            Text = TextInputText;
             TextInputText = "";
             TextInput = false;
             TextInputOpacity = 0.3;

@@ -37,7 +37,7 @@
                     <Viewbox StretchDirection="DownOnly">
                         <TextBlock MaxWidth="{Binding ElementName=TextView, Path=ActualWidth}"
                                    MaxHeight="{Binding ElementName=TextView, Path=ActualHeight}"
-                                   Text="whats up?"
+                                   Text="{Binding Text}"
                                    HorizontalAlignment="Center"
                                    TextWrapping="Wrap"/>
                     </Viewbox>
@@ -83,7 +83,7 @@
             </Grid>
             <TextBox 
                 Margin="5,0,5,5"
-                Text="{Binding TextInputText}"
+                Text="{Binding TextInputText, UpdateSourceTrigger=PropertyChanged}"
                 extension:FocusExtension.IsFocused="{Binding TextInput}"
                 Visibility="{Binding TextInput, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <i:Interaction.Triggers>
