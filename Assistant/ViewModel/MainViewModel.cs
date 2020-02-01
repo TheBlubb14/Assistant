@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Assistant.Model;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 
@@ -6,6 +7,7 @@ namespace Assistant.ViewModel
 {
     public sealed class MainViewModel : ViewModelBase
     {
+        #region UI
         public double MicrophoneOpacity { get; set; }
 
         public double TextInputOpacity { get; set; }
@@ -24,17 +26,13 @@ namespace Assistant.ViewModel
 
         public ICommand TextInputKeyPressCommand { get; set; }
 
+        public ICommand LoadedCommand { get; set; }
+        #endregion
+
+        private MyAssistant myAssistant;
+
         public MainViewModel()
         {
-            if (IsInDesignMode)
-            {
-                // Code runs in Blend --> create design time data.
-            }
-            else
-            {
-                // Code runs "for real"
-            }
-
             Text = "whats up?";
             MicrophoneOpacity = 0.3;
             TextInputOpacity = 0.3;
@@ -43,6 +41,22 @@ namespace Assistant.ViewModel
             TriggerMicrophoneCommand = new RelayCommand(TriggerMicrophone);
             TriggerTextInputCommand = new RelayCommand(TriggerTextInput);
             TextInputKeyPressCommand = new RelayCommand<KeyEventArgs>(TextInputKeyPress);
+            LoadedCommand = new RelayCommand(Loaded);
+
+            if (IsInDesignMode)
+            {
+                // Code runs in Blend --> create design time data.
+            }
+            else
+            {
+                // Code runs "for real"
+            }
+        }
+
+        public async void Loaded()
+        {
+            myAssistant = new MyAssistant();
+            await myAssistant.Initialize();
         }
 
         private void TextInputKeyPress(KeyEventArgs e)

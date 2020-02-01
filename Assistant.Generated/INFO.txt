@@ -1,0 +1,2 @@
+﻿Project exists because
+https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot?view=aspnetcore-3.0#wpf-projects-unable-to-generate-grpc-c-assets-from-proto-files

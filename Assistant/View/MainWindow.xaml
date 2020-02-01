@@ -20,6 +20,13 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="MainWindow" Name="Main" Height="120" Width="250" WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown" Topmost="True" IsTabStop="False" AllowsTransparency="True" SizeToContent="Height">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <Custom:EventToCommand Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Border Background="#FF303030" CornerRadius="10">
         <StackPanel>
             <Grid x:Name="ContentGrid">

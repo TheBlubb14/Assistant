@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assistant-old", "Assistant-old\Assistant-old.csproj", "{278AD032-C55D-470A-BF35-1AB104EB81A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assistant", "Assistant\Assistant.csproj", "{8DCFDEA0-2AC7-4E7B-9CB3-08E5258C9D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assistant", "Assistant\Assistant.csproj", "{8DCFDEA0-2AC7-4E7B-9CB3-08E5258C9D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assistant.Generated", "Assistant.Generated\Assistant.Generated.csproj", "{EC900CA6-EB02-44AC-91A8-D721C54C77A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8DCFDEA0-2AC7-4E7B-9CB3-08E5258C9D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DCFDEA0-2AC7-4E7B-9CB3-08E5258C9D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DCFDEA0-2AC7-4E7B-9CB3-08E5258C9D33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC900CA6-EB02-44AC-91A8-D721C54C77A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC900CA6-EB02-44AC-91A8-D721C54C77A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC900CA6-EB02-44AC-91A8-D721C54C77A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC900CA6-EB02-44AC-91A8-D721C54C77A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

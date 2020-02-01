@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="google\api\annotations.proto" />
+    <None Remove="google\api\http.proto" />
+    <None Remove="google\assistant\embedded\v1alpha2\embedded_assistant.proto" />
+    <None Remove="google\rpc\status.proto" />
+    <None Remove="google\type\latlng.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.11.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.26.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.23.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="google\api\annotations.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+    <Protobuf Include="google\api\http.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+    <Protobuf Include="google\assistant\embedded\v1alpha2\embedded_assistant.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+    <Protobuf Include="google\rpc\status.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+    <Protobuf Include="google\type\latlng.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)\..\googleapis\google\api\http.proto&quot; &quot;$(ProjectDir)\google\api\http.proto&quot;&#xD;&#xA;copy &quot;$(ProjectDir)\..\googleapis\google\api\annotations.proto&quot; &quot;$(ProjectDir)\google\api\annotations.proto&quot;&#xD;&#xA;copy &quot;$(ProjectDir)\..\googleapis\google\type\latlng.proto&quot; &quot;$(ProjectDir)\google\type\latlng.proto&quot;&#xD;&#xA;copy &quot;$(ProjectDir)\..\googleapis\google\rpc\status.proto&quot; &quot;$(ProjectDir)\google\rpc\status.proto&quot;&#xD;&#xA;copy &quot;$(ProjectDir)\..\googleapis\google\assistant\embedded\v1alpha2\embedded_assistant.proto&quot; &quot;$(ProjectDir)\google\assistant\embedded\v1alpha2\embedded_assistant.proto&quot;" />
+  </Target>
+
+</Project>
