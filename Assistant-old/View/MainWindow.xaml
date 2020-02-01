@@ -9,7 +9,7 @@
         xmlns:Custom="http://www.galasoft.ch/mvvmlight"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:Assistant"
-        xmlns:extensions="clr-namespace:Assistant.Extensions"
+        xmlns:extension="clr-namespace:Assistant.Extension"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -84,7 +84,7 @@
             <TextBox 
                 Margin="5,0,5,5"
                 Text="{Binding TextInputText, UpdateSourceTrigger=PropertyChanged}"
-                extensions:FocusExtension.IsFocused="{Binding TextInput}"
+                extension:FocusExtension.IsFocused="{Binding TextInput}"
                 Visibility="{Binding TextInput, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="KeyDown">

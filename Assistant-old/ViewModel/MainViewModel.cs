@@ -1,10 +1,11 @@
-﻿using GalaSoft.MvvmLight;
+using Assistant.Model;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 
 namespace Assistant.ViewModel
 {
-    public sealed class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         public double MicrophoneOpacity { get; set; }
 
@@ -24,6 +25,8 @@ namespace Assistant.ViewModel
 
         public ICommand TextInputKeyPressCommand { get; set; }
 
+        private readonly GoogleAssistant googleAssistant;
+
         public MainViewModel()
         {
             if (IsInDesignMode)
@@ -33,6 +36,7 @@ namespace Assistant.ViewModel
             else
             {
                 // Code runs "for real"
+                googleAssistant = new GoogleAssistant();
             }
 
             Text = "whats up?";
@@ -52,6 +56,7 @@ namespace Assistant.ViewModel
 
             if (e.Key == Key.Enter)
             {
+                googleAssistant.Write(TextInputText);
                 StopTextInput();
             }
         }
@@ -90,12 +95,14 @@ namespace Assistant.ViewModel
         {
             Listening = true;
             MicrophoneOpacity = 1;
+            googleAssistant.StartListen();
         }
 
         private void StopListen()
         {
             Listening = false;
             MicrophoneOpacity = 0.3;
+            googleAssistant.StopListen();
         }
     }
 }
