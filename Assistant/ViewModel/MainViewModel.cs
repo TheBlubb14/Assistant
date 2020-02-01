@@ -25,7 +25,7 @@ namespace Assistant.ViewModel
 
         public ICommand TextInputKeyPressCommand { get; set; }
 
-        private GoogleAssistant googleAssistant;
+        private readonly GoogleAssistant googleAssistant;
 
         public MainViewModel()
         {

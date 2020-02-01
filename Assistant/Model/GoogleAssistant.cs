@@ -11,7 +11,7 @@ namespace Assistant.Model
     {
         public event EventHandler<GoogleAssistantStatusEventArgs> StatusChanged;
 
-        private AudioManager audioManager;
+        private readonly AudioManager audioManager;
 
         public GoogleAssistant()
         {
