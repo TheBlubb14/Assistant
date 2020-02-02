@@ -3,11 +3,13 @@ using Google.Protobuf;
 using GoogleLibrary.User;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -160,7 +162,10 @@ namespace Assistant.Model
                 if (response.DialogStateOut != null)
                 {
                     persistance.UpdateConversation(response.DialogStateOut.ConversationState);
-                    audio.VolumePercentage = response.DialogStateOut.VolumePercentage;
+
+                    // 0 mean undefined
+                    if (response.DialogStateOut.VolumePercentage > 0)
+                        audio.VolumePercentage = response.DialogStateOut.VolumePercentage;
 
                     switch (response.DialogStateOut.MicrophoneMode)
                     {
@@ -203,7 +208,7 @@ namespace Assistant.Model
                 }
 
                 // Recognized Speech
-                if (response.SpeechResults != null)
+                if (response.SpeechResults?.Count > 0)
                 {
                     var maxStability = response.SpeechResults.Max(x => x.Stability);
                     var recognition = response.SpeechResults.FirstOrDefault(x => x.Stability == maxStability);
@@ -245,6 +250,7 @@ namespace Assistant.Model
                     DebugConfig = CreateDebugConfig(),
                     DialogStateIn = CreateDialogStateIn(isNewConversation),
                     ScreenOutConfig = CreateScreenOutConfig(),
+                    DeviceConfig = CreateDeviceConfig()
                     // Dont send TextQuery
                 }
             };
@@ -308,16 +314,14 @@ namespace Assistant.Model
         {
             return new ScreenOutConfig()
             {
-                ScreenMode = ScreenOutConfig.Types.ScreenMode.Playing
+                ScreenMode = ScreenOutConfig.Types.ScreenMode.Off
             };
         }
 
         private DeviceConfig CreateDeviceConfig()
         {
-            return new DeviceConfig()
-            {
-                // missing https://developers.google.com/assistant/sdk/reference/device-registration/model-and-instance-schemas 
-            };
+            // https://developers.google.com/assistant/sdk/reference/device-registration/model-and-instance-schemas 
+            return JsonConvert.DeserializeObject<DeviceConfig>(File.ReadAllText(@"B:\sync\assistant-device-config.json"));
         }
         #endregion
 

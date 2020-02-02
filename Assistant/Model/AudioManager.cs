@@ -22,10 +22,7 @@ namespace Assistant.Model
         /// </summary>
         public int VolumePercentage
         {
-            get
-            {
-                return volumePercentage;
-            }
+            get => volumePercentage;
             set
             {
                 if (volumePercentage.Equals(value))

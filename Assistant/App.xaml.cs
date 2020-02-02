@@ -8,7 +8,7 @@ namespace Assistant
         public App()
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(@"logs\log")
+                .WriteTo.File(@"logs\log.txt")
                 .CreateLogger();
         }
     }
