@@ -1,6 +1,7 @@
 ﻿using Assistant.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Assistant.ViewModel
@@ -56,10 +57,35 @@ namespace Assistant.ViewModel
         public async void Loaded()
         {
             myAssistant = new MyAssistant();
+            myAssistant.WaitingForFollowUp += MyAssistant_WaitingForFollowUp;
+            myAssistant.SpeechRecognized += MyAssistant_SpeechRecognized;
+            myAssistant.DisplayText += MyAssistant_DisplayText;
+            myAssistant.DisplayHtml += MyAssistant_DisplayHtml;
+
             await myAssistant.Initialize();
         }
 
-        private void TextInputKeyPress(KeyEventArgs e)
+        private void MyAssistant_DisplayHtml(object sender, string e)
+        {
+            Text = e;
+        }
+
+        private void MyAssistant_DisplayText(object sender, string e)
+        {
+            Text = e;
+        }
+
+        private void MyAssistant_SpeechRecognized(object sender, MyAssistant.SpeechRecognitionResult e)
+        {
+            Text = e.ToString();
+        }
+
+        private void MyAssistant_WaitingForFollowUp(object sender, MyAssistant.FollowUpEventArgs e)
+        {
+            e.Text = "egal";
+        }
+
+        private async void TextInputKeyPress(KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
                 StopTextInput();
@@ -67,6 +93,8 @@ namespace Assistant.ViewModel
             if (e.Key == Key.Enter)
             {
                 StopTextInput();
+
+                await myAssistant.NewTextConversation(Text, true);
             }
         }
 
@@ -100,16 +128,20 @@ namespace Assistant.ViewModel
             TextInputOpacity = 0.3;
         }
 
-        private void StartListen()
+        private async void StartListen()
         {
             Listening = true;
             MicrophoneOpacity = 1;
+
+            await myAssistant.NewAudioConversation(true);
         }
 
         private void StopListen()
         {
             Listening = false;
             MicrophoneOpacity = 0.3;
+
+            myAssistant.StopStreamingAudio();
         }
     }
 }
