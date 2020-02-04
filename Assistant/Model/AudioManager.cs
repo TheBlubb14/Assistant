@@ -88,7 +88,7 @@ namespace Assistant.Model
             OutputStream.Position = 0;
             playerStream = new RawSourceWaveStream(OutputStream, WaveFormat);
             player.Init(playerStream);
-            player.Volume = 1F;
+            player.Volume = VolumePercentage / 100F;
             player.Play();
 
             AudioPlaybackChanged?.Invoke(this, true);
