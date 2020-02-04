@@ -42,16 +42,10 @@ namespace Assistant.Model
         private RawSourceWaveStream playerStream;
         private readonly WaveFormat WaveFormat = new WaveFormat(SAMPLE_RATE_HZ, 1);
 
-        /// <summary>
-        /// Snapshot of <see cref="OutputStream"/> for playing
-        /// </summary>
-        private MemoryStream outputStream;
-
         public AudioManager()
         {
             volumePercentage = 100;
             OutputStream = new MemoryStream();
-            outputStream = new MemoryStream();
 
             recorder = new WaveInEvent()
             {
@@ -91,9 +85,10 @@ namespace Assistant.Model
                 return;
             }
 
-            OutputStream.CopyTo(outputStream);
-            playerStream = new RawSourceWaveStream(outputStream, WaveFormat);
+            OutputStream.Position = 0;
+            playerStream = new RawSourceWaveStream(OutputStream, WaveFormat);
             player.Init(playerStream);
+            player.Volume = 1F;
             player.Play();
 
             AudioPlaybackChanged?.Invoke(this, true);
@@ -132,9 +127,6 @@ namespace Assistant.Model
 
             playerStream?.Dispose();
             playerStream = null;
-
-            outputStream?.Dispose();
-            outputStream = null;
 
             OutputStream?.Dispose();
             OutputStream = null;
